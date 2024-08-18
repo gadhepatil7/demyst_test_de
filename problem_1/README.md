@@ -1,43 +1,111 @@
-# Data Engineering Coding Challenges
+# Fixed-Width to CSV Generator and Reader
 
-## Judgment Criteria
+## Overview
 
-- Beauty of the code (beauty lies in the eyes of the beholder)
-- Testing strategies
-- Basic Engineering principles
+This project provides scripts for generating random fixed-width formatted data based on a given JSON specification, converting that data into a CSV file, and reading fixed-width formatted files back into a structured format.
 
-## Problem 1
+### Key Features
 
-### Parse fixed width file
+- **Customizable Specifications**: Define column names, field widths, and encoding in a JSON specification file.
+- **Random Data Generation**: Generate random alphanumeric data for each column according to the specified widths.
+- **CSV Output**: Convert the generated fixed-width data into a CSV file.
+- **Fixed-Width File Reading**: Convert a fixed-width formatted file back into a structured format using the same specification.
+- **Command-Line Interface**: Easy-to-use command-line arguments for all operations.
 
-- Generate a fixed width file using the provided spec (offset provided in the spec file represent the length of each field).
-- Implement a parser that can parse the fixed width file and generate a delimited file, like CSV for example.
-- DO NOT use python libraries like pandas for parsing. You can use the standard library to write out a csv file (If you feel like)
-- Language choices (Python or Scala)
-- Deliver source via github or bitbucket
-- Bonus points if you deliver a docker container (Dockerfile) that can be used to run the code (too lazy to install stuff that you might use)
-- Pay attention to encoding
+## Prerequisites
 
-## Problem 2
+- Python 3.x
 
-### Data processing
+## Installation
 
-- Generate a csv file containing first_name, last_name, address, date_of_birth
-- Process the csv file to anonymise the data
-- Columns to anonymise are first_name, last_name and address
-- You might be thinking  that is silly
-- Now make this work on 2GB csv file (should be doable on a laptop)
-- Demonstrate that the same can work on bigger dataset
-- Hint - You would need some distributed computing platform
+Clone this repository to your local machine:
 
-## Choices
+```bash
+git clone https://github.com/yourusername/fixed-width-to-csv.git
+cd fixed-width-to-csv
+```
 
-- Any language, any platform
-- One of the above problems or both, if you feel like it.
+## Usage
 
-git init
-git add .
-git commit -m "Initial commit with project setup and instructions"
-git branch -M main
-git remote add origin https://github.com/gadhepatil7/demyst_test.git
-git push -u origin master
+### 1. Generating CSV from Fixed-Width Data
+
+To generate a CSV file from random fixed-width data, use the following command:
+
+```bash
+python3 genrate_file.py --spec_file spec.json --output_csv_file sample_data.csv --num_records 10
+```
+
+#### Command-Line Arguments
+
+- `--spec_file`: (Required) Path to the JSON file containing the specifications (e.g., column names, offsets, encodings).
+- `--output_csv_file`: (Required) Path where the output CSV file will be saved.
+- `--num_records`: (Optional) Number of records to generate. Defaults to 10.
+
+### 2. Reading a Fixed-Width File
+
+To read a fixed-width formatted file and convert it to a structured format, use the following command:
+
+```bash
+python3 read_data.py --spec_file spec.json --input_file generated_data.txt --num_records 5
+```
+
+#### Command-Line Arguments
+
+- `--spec_file`: (Required) Path to the JSON specification file (e.g., `spec.json`).
+- `--input_file`: (Required) Path to the input fixed-width file.
+- `--num_records`: (Optional) Number of records to process. If not provided, all records will be processed.
+
+### Example
+
+Assume you have the following `spec.json`:
+
+```json
+{
+    "ColumnNames": ["FirstName", "LastName", "Age"],
+    "Offsets": ["10", "10", "3"],
+    "IncludeHeader": "true",
+    "FixedWidthEncoding": "utf-8",
+    "DelimitedEncoding": "utf-8"
+}
+```
+
+**Step 1: Generate CSV**
+
+You can generate a CSV file with 10 random records by running:
+
+```bash
+python3 genrate_file.py --spec_file spec.json --output_csv_file sample_data.csv --num_records 10
+```
+
+**Step 2: Read Fixed-Width File**
+
+To read a fixed-width formatted file (e.g., `generated_data.txt`) and convert it to a structured format, run:
+
+```bash
+python3 read_data.py --spec_file spec.json --input_file generated_data.txt --num_records 5
+```
+
+This will print out the structured data:
+
+```python
+{'FirstName': 'RandomName1', 'LastName': 'RandomName2', 'Age': '25'}
+...
+```
+
+## JSON Specification Details
+
+The `spec.json` file should include the following fields:
+
+- `ColumnNames`: An array of strings representing the column names.
+- `Offsets`: An array of strings representing the width of each column in the fixed-width format.
+- `IncludeHeader`: A boolean-like string ("true" or "false") indicating whether to include a header row in the output.
+- `FixedWidthEncoding`: The character encoding for the fixed-width format.
+- `DelimitedEncoding`: The character encoding for the output CSV file.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contributions
+
+Contributions are welcome! Please feel free to submit a Pull Request or open an Issue if you encounter any bugs or have suggestions for new features.
