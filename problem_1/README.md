@@ -85,12 +85,7 @@ To read a fixed-width formatted file (e.g., `generated_data.txt`) and convert it
 python3 read_data.py --spec_file spec.json --input_file generated_data.txt --num_records 5
 ```
 
-This will print out the structured data:
-
-```python
-{'FirstName': 'RandomName1', 'LastName': 'RandomName2', 'Age': '25'}
-...
-```
+This will print out the structured data
 
 ## JSON Specification Details
 
